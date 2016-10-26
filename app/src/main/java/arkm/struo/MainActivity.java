@@ -10,11 +10,17 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -78,7 +84,21 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.calendar_main, container, false);
+            View view = inflater.inflate(R.layout.calendar_main, container, false);
+            TextView yearView = (TextView) view.findViewById(R.id.yearView);
+            TextView monthView = (TextView) view.findViewById(R.id.monthView);
+            TextView dayNumView = (TextView) view.findViewById(R.id.dayNumberView);
+            TextView date = (TextView) view.findViewById(R.id.date);
+
+            //create calendar instance
+            Calendar cal = Calendar.getInstance();
+            //output text onto calendar view
+            yearView.setText(new SimpleDateFormat("yyyy", Locale.CANADA).format(cal.getTime()));
+            monthView.setText(new SimpleDateFormat("MMMM", Locale.CANADA).format(cal.getTime()));
+            dayNumView.setText(new SimpleDateFormat("d", Locale.CANADA).format(cal.getTime()));
+            date.setText(new SimpleDateFormat("E", Locale.CANADA).format(cal.getTime()));
+
+            return view;
         }
     }
 
