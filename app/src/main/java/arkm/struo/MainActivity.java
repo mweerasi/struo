@@ -90,22 +90,19 @@ public class MainActivity extends AppCompatActivity {
             TextView dayNumView = (TextView) view.findViewById(R.id.dayNumberView);
             TextView date = (TextView) view.findViewById(R.id.date);
 
-            //call calendar instance and create a string array to store the full date
+            //call calendar instance and create a string array to store the full date separately
             Calendar cal = Calendar.getInstance();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MMMM/d/E", Locale.CANADA);
-            String strDate = dateFormat.format(cal.getTime());
-            String[] values = strDate.split("/",0);
-
+            
 //            //Confirm date
 //            for (int i= 0; i < values.length; i++){
 //                Log.v("CHECK_DATE", values[i]);
 //            }
 
             //output text onto calendar view
-            yearView.setText(values[0]);
-            monthView.setText(values[1]);
-            dayNumView.setText(values[2]);
-            date.setText(values[3]);
+            yearView.setText(new SimpleDateFormat("yyyy", Locale.CANADA).format(cal.getTime()));
+            monthView.setText(new SimpleDateFormat("MMMM", Locale.CANADA).format(cal.getTime()));
+            dayNumView.setText(new SimpleDateFormat("d", Locale.CANADA).format(cal.getTime()));
+            date.setText(new SimpleDateFormat("E", Locale.CANADA).format(cal.getTime()));
 
             return view;
         }
