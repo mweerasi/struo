@@ -11,9 +11,20 @@
     android:background="#3fb399">
 
     <TextView
+        android:id="@+id/city_field"
+        android:text="city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFFFFF"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+    <TextView
         android:id="@+id/monthView"
         android:text="monthView"
-        android:layout_width="220dp"
+        android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_below="@+id/yearView"
         android:layout_centerHorizontal="true"
@@ -21,18 +32,6 @@
         android:textColor="#ffffff"
         android:gravity="center"
         android:background="#206757"/>
-
-    <TextView
-        android:id="@+id/dayNumberView"
-        android:text="dayNumberView"
-        android:layout_width="220dp"
-        android:layout_height="200dp"
-        android:layout_below="@+id/monthView"
-        android:layout_alignStart="@+id/monthView"
-        android:textColor="#206757"
-        android:textSize="70dp"
-        android:background="#ffffff"
-        android:gravity="center"/>
 
     <TextView
         android:id="@+id/date"
@@ -52,8 +51,40 @@
         android:text="year"
         android:textSize="24sp"
         android:textColor="#ffffff"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="45dp"
         android:layout_alignParentTop="true"
         android:layout_alignEnd="@+id/monthView" />
+
+    <TextView
+        android:id="@+id/dayNumberView"
+        android:text="dayNumberView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:textColor="#206757"
+        android:textSize="70dp"
+        android:background="#ffffff"
+        android:layout_below="@+id/monthView"
+        android:layout_alignStart="@+id/monthView"
+        android:gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/weather_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFFFFF"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="90sp" />
+
+    <TextView
+        android:id="@+id/current_temperature_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFFFFF"
+        android:layout_below="@+id/weather_icon"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="50sp" />
 
 </RelativeLayout>
