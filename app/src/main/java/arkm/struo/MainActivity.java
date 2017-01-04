@@ -1,5 +1,6 @@
 package arkm.struo;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,17 +17,34 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
+//weather imports
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    public OpenWeatherMap weatherObject;
+
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -76,37 +97,42 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // TODO: Move fragments to their own separate files
-    public static class CalendarFragment extends Fragment {
-        public CalendarFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.calendar_main, container, false);
-            TextView yearView = (TextView) view.findViewById(R.id.yearView);
-            TextView monthView = (TextView) view.findViewById(R.id.monthView);
-            TextView dayNumView = (TextView) view.findViewById(R.id.dayNumberView);
-            TextView date = (TextView) view.findViewById(R.id.date);
-
-            //create calendar instance
-            Calendar cal = Calendar.getInstance();
-            //output text onto calendar view
-            yearView.setText(new SimpleDateFormat("yyyy", Locale.CANADA).format(cal.getTime()));
-            monthView.setText(new SimpleDateFormat("MMMM", Locale.CANADA).format(cal.getTime()));
-            dayNumView.setText(new SimpleDateFormat("d", Locale.CANADA).format(cal.getTime()));
-            date.setText(new SimpleDateFormat("E", Locale.CANADA).format(cal.getTime()));
-
-
-
-            //for weather
-
-
-            return view;
-        }
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
+    }
+    // TODO: Move fragments to their own separate files
     public static class ChecklistFragment extends Fragment {
         public ChecklistFragment() {
         }
@@ -171,6 +197,111 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    public void Weather(String weatherJSON) {
+
+        Gson gson = new Gson();
+        OpenWeatherMap weatherObject = gson.fromJson(weatherJSON, OpenWeatherMap.class);
+
+    }
+
+    public static class OpenWeatherMap{
+        @SerializedName("coord")
+        public Coord coord;
+        @SerializedName("sys")
+        Sys sys;
+        @SerializedName("weather")
+        Weather weather;
+        @SerializedName("main")
+        Main main;
+        @SerializedName("clouds")
+        Clouds clouds;
+        @SerializedName("name")
+        public static Name name;
+
+
+
+    }
+    public class Coord{
+        @SerializedName("lon")
+        double lon;
+        @SerializedName("lat")
+        double lat;
+    }
+    public class Sys{
+        @SerializedName("country")
+        String country;
+        @SerializedName("sunrise")
+        int sunride;
+        @SerializedName("sunset")
+        int sunset;
+    }
+    public class Weather{
+        @SerializedName("main")
+        String main;
+        @SerializedName("description")
+        String description;
+    }
+    public class Main{
+        @SerializedName("temp")
+        double temp;
+        @SerializedName("humidity")
+        int humidity;
+        @SerializedName("pressure")
+        double pressure;
+        @SerializedName("temp_min")
+        double minTemp;
+        @SerializedName("temp_max")
+        double maxTemp;
+    }
+    public class Clouds{
+        @SerializedName("all")
+        int cloudLevel;
+    }
+    public class Name{
+        @SerializedName("name")
+        String city;
+    }
+    public void fetchWeatherAsync(String city, String countryCode) {//doing it by ZIP code
+        String baseUrl = "api.openweathermap.org/data/2.5/weather";
+        String url = String.format("%s?q=%s,%s&APPID=%s", baseUrl, city, countryCode,
+                getResources().getString(R.string.weather_api_key));
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+
+        StringRequest weatherCall = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response is the json string
+                        /*
+                        {
+                        "coord":{"lon":-122.09,"lat":37.39},
+                        "sys":{"type":3,"id":168940,"message":0.0297,"country":"US","sunrise":1427723751,"sunset":1427768967},
+                        "weather":[{"id":800,"main":"Clear","description":"Sky is Clear","icon":"01n"}],
+                        "base":"stations",
+                        "main":{"temp":285.68,"humidity":74,"pressure":1016.8,"temp_min":284.82,"temp_max":286.48},
+                        "wind":{"speed":0.96,"deg":285.001},
+                        "clouds":{"all":0},
+                        "dt":1427700245,
+                        "id":0,
+                        "name":"Mountain View",
+                        "cod":200
+                        }
+                         */
+                        Weather(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Volley Error", error.getLocalizedMessage());
+                    }
+                });
+
+        queue.add(weatherCall);
     }
 
 }
