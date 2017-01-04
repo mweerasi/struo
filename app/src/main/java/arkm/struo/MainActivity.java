@@ -98,6 +98,11 @@ public class MainActivity extends AppCompatActivity {
             dayNumView.setText(new SimpleDateFormat("d", Locale.CANADA).format(cal.getTime()));
             date.setText(new SimpleDateFormat("E", Locale.CANADA).format(cal.getTime()));
 
+
+
+            //for weather
+
+
             return view;
         }
     }
