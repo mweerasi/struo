@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private CalendarFragment calendarFragment;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //set weather city
+        fetchWeatherAsync("Waterloo", "ca");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -170,7 +173,8 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new CalendarFragment();
+                    calendarFragment = new CalendarFragment();
+                    return calendarFragment;
                 case 1:
                     return new ChecklistFragment();
                 case 2:
@@ -204,6 +208,8 @@ public class MainActivity extends AppCompatActivity {
         Gson gson = new Gson();
         OpenWeatherMap weatherObject = gson.fromJson(weatherJSON, OpenWeatherMap.class);
 
+        calendarFragment.setCityField(weatherObject);
+
     }
 
     public static class OpenWeatherMap{
@@ -212,13 +218,13 @@ public class MainActivity extends AppCompatActivity {
         @SerializedName("sys")
         Sys sys;
         @SerializedName("weather")
-        Weather weather;
+        Weather[] weather;
         @SerializedName("main")
         Main main;
-        @SerializedName("clouds")
-        Clouds clouds;
+//        @SerializedName("clouds")
+//        String clouds;
         @SerializedName("name")
-        public static Name name;
+        String name;
 
 
 
@@ -255,18 +261,12 @@ public class MainActivity extends AppCompatActivity {
         @SerializedName("temp_max")
         double maxTemp;
     }
-    public class Clouds{
-        @SerializedName("all")
-        int cloudLevel;
-    }
-    public class Name{
-        @SerializedName("name")
-        String city;
-    }
+
     public void fetchWeatherAsync(String city, String countryCode) {//doing it by ZIP code
-        String baseUrl = "api.openweathermap.org/data/2.5/weather";
-        String url = String.format("%s?q=%s,%s&APPID=%s", baseUrl, city, countryCode,
-                getResources().getString(R.string.weather_api_key));
+//        String baseUrl = "api.openweathermap.org/data/2.5/weather";
+//        String url = String.format("%s?q=%s,%s&appid=%s", baseUrl, city, countryCode,
+//                getResources().getString(R.string.weather_api_key));
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=Waterloo,ca&appid=168b9d1fbc6ecad777c0ee9511dde039";
 
         RequestQueue queue = Volley.newRequestQueue(this);
 

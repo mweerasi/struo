@@ -16,6 +16,12 @@ import java.util.Locale;
  * Created by manju on 2017-01-04.
  */
 public class CalendarFragment extends Fragment {
+
+    private TextView cityField;
+    private TextView updatedField;
+    private TextView detailsField;
+    private TextView currentTemperatureField;
+    private TextView weatherIcon;
     public CalendarFragment() {
     }
 
@@ -38,24 +44,29 @@ public class CalendarFragment extends Fragment {
 
 
         //for weather
-        TextView cityField = (TextView) view.findViewById(R.id.city_field);
-        TextView updatedField = (TextView) view.findViewById(R.id.updated_field);
-        TextView detailsField = (TextView) view.findViewById(R.id.details_field);
-        TextView currentTemperatureField = (TextView) view.findViewById(R.id.current_temperature_field);
-        TextView weatherIcon = (TextView) view.findViewById(R.id.weather_icon);
+
+        cityField = (TextView) view.findViewById(R.id.city_field);
+        updatedField = (TextView) view.findViewById(R.id.updated_field);
+        detailsField = (TextView) view.findViewById(R.id.details_field);
+        currentTemperatureField = (TextView) view.findViewById(R.id.current_temperature_field);
+        weatherIcon = (TextView) view.findViewById(R.id.weather_icon);
 
         Typeface weatherFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/weathericons-regular-webfont.ttf");
         weatherIcon.setTypeface(weatherFont);
 
-        fetchWeatherAsync("Waterloo", "ca");
-        cityField.setText(MainActivity.OpenWeatherMap.name.city);
 //            updatedField.setText(weather_updatedOn);
 //            detailsField.setText(weather_description);
-//            currentTemperatureField.setText(weather_temperature);
 //            humidity_field.setText("Humidity: "+weather_humidity);
 //            pressure_field.setText("Pressure: "+weather_pressure);
 //            weatherIcon.setText(Html.fromHtml(weather_iconText));
 
         return view;
+    }
+
+    public void setCityField(MainActivity.OpenWeatherMap weatherObject){
+        cityField.setText(weatherObject.name + ", " + weatherObject.sys.country);
+
+
+        currentTemperatureField.setText(String.format("%.2f"+ (char) 0x00B0 +"C", weatherObject.main.temp - 273.15));
     }
 }
