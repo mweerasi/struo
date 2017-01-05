@@ -66,7 +66,7 @@ public class CalendarFragment extends Fragment {
     public void setCityField(MainActivity.OpenWeatherMap weatherObject){
         cityField.setText(weatherObject.name + ", " + weatherObject.sys.country);
 
-
+        detailsField.setText(weatherObject.weather[0].description);
         currentTemperatureField.setText(String.format("%.2f"+ (char) 0x00B0 +"C", weatherObject.main.temp - 273.15));
     }
 }
