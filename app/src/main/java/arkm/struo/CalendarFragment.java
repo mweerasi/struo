@@ -62,10 +62,29 @@ public class CalendarFragment extends Fragment {
     }
 
     public void setCityField(MainActivity.OpenWeatherMap weatherObject){
+        String windDeg;
         cityField.setText(weatherObject.name + ", " + weatherObject.sys.country);
 
         detailsField.setText(weatherObject.weather[0].description);
         currentTemperatureField.setText(String.format("%.2f"+ (char) 0x00B0 +"C", weatherObject.main.temp - 273.15));
-        windSpeed.setText(String.format("%.3fkm/h %.1f" + (char) 0x00B0, weatherObject.wind.speed*3600/1000, weatherObject.wind.deg));
+
+        if (weatherObject.wind.deg > 337.5 && weatherObject.wind.deg <= 22.5){
+            windDeg = String.format("N");
+        } else if (weatherObject.wind.deg > 22.5 && weatherObject.wind.deg <= 67.5){
+            windDeg = String.format("NE");
+        } else if (weatherObject.wind.deg > 67.5 && weatherObject.wind.deg <= 112.5){
+            windDeg = String.format("E");
+        } else if (weatherObject.wind.deg > 112.5 && weatherObject.wind.deg <= 157.5){
+            windDeg = String.format("SE");
+        } else if (weatherObject.wind.deg > 157.5 && weatherObject.wind.deg <= 202.5){
+            windDeg = String.format("S");
+        } else if (weatherObject.wind.deg > 202.5 && weatherObject.wind.deg <= 247.5){
+            windDeg = String.format("SW");
+        } else if (weatherObject.wind.deg > 247.5 && weatherObject.wind.deg <= 292.5){
+            windDeg = String.format("W");
+        } else {
+            windDeg = String.format("NW");
+        }
+        windSpeed.setText(String.format("%.3f km/h %s", weatherObject.wind.speed*3600/1000, windDeg));
     }
 }
