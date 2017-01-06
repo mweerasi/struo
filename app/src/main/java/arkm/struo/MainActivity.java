@@ -225,6 +225,8 @@ public class MainActivity extends AppCompatActivity {
 //        String clouds;
         @SerializedName("name")
         String name;
+        @SerializedName("wind")
+        Wind wind;
 
 
 
@@ -260,6 +262,12 @@ public class MainActivity extends AppCompatActivity {
         double minTemp;
         @SerializedName("temp_max")
         double maxTemp;
+    }
+    public class Wind{
+        @SerializedName("speed")
+        double speed;
+        @SerializedName("deg")
+        double deg;
     }
 
     public void fetchWeatherAsync(String city, String countryCode) {//doing it by ZIP code
