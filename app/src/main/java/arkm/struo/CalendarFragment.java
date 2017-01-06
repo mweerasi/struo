@@ -3,9 +3,12 @@ package arkm.struo;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -24,6 +27,7 @@ public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.calendar_main, container, false);
         TextView yearView = (TextView) view.findViewById(R.id.yearView);
         TextView monthView = (TextView) view.findViewById(R.id.monthView);
@@ -38,7 +42,7 @@ public class CalendarFragment extends Fragment {
         dayNumView.setText(new SimpleDateFormat("d", Locale.CANADA).format(cal.getTime()));
         date.setText(new SimpleDateFormat("E", Locale.CANADA).format(cal.getTime()));
 
-        //MainActivity.fetchWeatherAsync("Waterloo", "ca");
+        ((MainActivity)getActivity()).fetchWeatherAsync("Waterloo", "ca");
 
         //for weather
 
@@ -49,11 +53,19 @@ public class CalendarFragment extends Fragment {
         weatherIcon = (TextView) view.findViewById(R.id.weatherIcon);
         windSpeed = (TextView) view.findViewById(R.id.windSpeed);
 
+        cityField.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                showInputDialog();
+            }
+        });
+
+
+
+
         Typeface weatherFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/weathericons-regular-webfont.ttf");
         weatherIcon.setTypeface(weatherFont);
 
-//            updatedField.setText(weather_updatedOn);
-//            detailsField.setText(weather_description);
 //            humidity_field.setText("Humidity: "+weather_humidity);
 //            pressure_field.setText("Pressure: "+weather_pressure);
 //            weatherIcon.setText(Html.fromHtml(weather_iconText));
@@ -61,7 +73,34 @@ public class CalendarFragment extends Fragment {
         return view;
     }
 
-    public void setCityField(MainActivity.OpenWeatherMap weatherObject){
+    private void showInputDialog() {
+        // get prompts.xml view
+        LayoutInflater layoutInflater = LayoutInflater.from((MainActivity)getActivity());
+        View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder((MainActivity)getActivity());
+        alertDialogBuilder.setView(promptView);
+
+        final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
+        // setup a dialog window
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ((MainActivity)getActivity()).fetchWeatherAsync(editText.getText().toString(), "ca");
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create an alert dialog
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
+    public void setWeatherField(MainActivity.OpenWeatherMap weatherObject){
         String windDeg;
         cityField.setText(weatherObject.name + ", " + weatherObject.sys.country);
 
