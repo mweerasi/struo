@@ -241,15 +241,17 @@ public class MainActivity extends AppCompatActivity {
         @SerializedName("country")
         String country;
         @SerializedName("sunrise")
-        int sunride;
+        long sunrise;
         @SerializedName("sunset")
-        int sunset;
+        long sunset;
     }
     public class Weather{
         @SerializedName("main")
         String main;
         @SerializedName("description")
         String description;
+        @SerializedName("id")
+        int id;
     }
     public class Main{
         @SerializedName("temp")

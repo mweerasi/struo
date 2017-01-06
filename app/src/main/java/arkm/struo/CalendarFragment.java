@@ -5,14 +5,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -97,6 +100,7 @@ public class CalendarFragment extends Fragment {
 
         // create an alert dialog
         AlertDialog alert = alertDialogBuilder.create();
+        alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         alert.show();
     }
 
@@ -125,5 +129,37 @@ public class CalendarFragment extends Fragment {
             windDeg = String.format("NW");
         }
         windSpeed.setText(String.format("%.3f km/h %s", weatherObject.wind.speed*3600/1000, windDeg));
+
+        weatherIcon.setText(Html.fromHtml(setWeatherIcon(weatherObject.weather[0].id, weatherObject.sys.sunrise * 1000, weatherObject.sys.sunset * 1000)));
+
+    }
+
+    public static String setWeatherIcon(int actualId, long sunrise, long sunset){
+        int id = actualId / 100;
+        String icon = "";
+        if(actualId == 800){
+            long currentTime = new Date().getTime();
+            if(currentTime>=sunrise && currentTime<sunset) {
+                icon = "&#xf00d;";
+            } else {
+                icon = "&#xf02e;";
+            }
+        } else {
+            switch(id) {
+                case 2 : icon = "&#xf01e;";
+                    break;
+                case 3 : icon = "&#xf01c;";
+                    break;
+                case 7 : icon = "&#xf014;";
+                    break;
+                case 8 : icon = "&#xf013;";
+                    break;
+                case 6 : icon = "&#xf01b;";
+                    break;
+                case 5 : icon = "&#xf019;";
+                    break;
+            }
+        }
+        return icon;
     }
 }
