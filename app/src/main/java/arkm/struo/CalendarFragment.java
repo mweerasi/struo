@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,7 +24,8 @@ import java.util.Locale;
  */
 public class CalendarFragment extends Fragment {
 
-    private TextView cityField, updatedField, detailsField, currentTemperatureField, weatherIcon, windSpeed;
+    private TextView cityField, updatedField, detailsField, currentTemperatureField, weatherIcon, windSpeed; //Weather textviews
+    private Button updateField;
     public CalendarFragment() {
     }
 
@@ -50,11 +52,13 @@ public class CalendarFragment extends Fragment {
         //for weather
 
         cityField = (TextView) view.findViewById(R.id.cityField);
-        updatedField = (TextView) view.findViewById(R.id.updatedField);
+        //updatedField = (TextView) view.findViewById(R.id.updatedField);
         detailsField = (TextView) view.findViewById(R.id.detailsField);
         currentTemperatureField = (TextView) view.findViewById(R.id.currentTemperatureField);
         weatherIcon = (TextView) view.findViewById(R.id.weatherIcon);
         windSpeed = (TextView) view.findViewById(R.id.windSpeed);
+
+        updatedField = (Button) view.findViewById(R.id.updateField);
 
         cityField.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -79,12 +83,14 @@ public class CalendarFragment extends Fragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder((MainActivity)getActivity());
         alertDialogBuilder.setView(promptView);
 
-        final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
+        final EditText editCity = (EditText) promptView.findViewById(R.id.editCity);
+        final EditText editCountry = (EditText) promptView.findViewById(R.id.editCountry);
         // setup a dialog window
+        // TODO: Have input dialog show current city/country
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        ((MainActivity)getActivity()).fetchWeatherAsync(editText.getText().toString(), "ca");
+                        ((MainActivity)getActivity()).fetchWeatherAsync(editCity.getText().toString(), editCountry.getText().toString());
                     }
                 })
                 .setNegativeButton("Cancel",
@@ -102,7 +108,7 @@ public class CalendarFragment extends Fragment {
 
     public void setWeatherField(MainActivity.OpenWeatherMap weatherObject){
         String windDeg;
-        //set
+        //output the weather fields
         cityField.setText(weatherObject.name + ", " + weatherObject.sys.country);
         detailsField.setText(weatherObject.weather[0].description);
         currentTemperatureField.setText(String.format("%.2f"+ (char) 0x00B0 +"C", weatherObject.main.temp - 273.15));

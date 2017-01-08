@@ -10,13 +10,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Enter Name"
+        android:text="Enter City and Country"
         android:id="@+id/textView" />
 
     <EditText
-        android:id="@+id/edittext"
+        android:id="@+id/editCity"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter text here.."
+        android:hint="Enter City here.."
+        android:padding="10dp" />
+
+    <EditText
+        android:id="@+id/editCountry"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Country here.."
         android:padding="10dp" />
 </LinearLayout>

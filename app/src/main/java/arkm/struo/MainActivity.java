@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //creating the Weather
+    //creating the Weather parser
     public static class OpenWeatherMap{
         @SerializedName("coord")
         public Coord coord;
@@ -224,6 +224,8 @@ public class MainActivity extends AppCompatActivity {
         Main main;
 //        @SerializedName("clouds")
 //        String clouds;
+        @SerializedName("dt")
+        long dt;
         @SerializedName("name")
         String name;
         @SerializedName("wind")
@@ -276,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                 getResources().getString(R.string.weather_api_key));
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        
+
         StringRequest weatherCall = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override

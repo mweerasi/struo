@@ -32,15 +32,15 @@
         android:textColor="#FFFFFF"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/updatedField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cityField"
-        android:layout_centerHorizontal="true"
-        android:textColor="#FFFFFF"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="13sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/updatedField"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/cityField"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:textColor="#FFFFFF"-->
+        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+        <!--android:textSize="13sp" />-->
 
 
     <TextView
@@ -117,5 +117,14 @@
         android:textColor="#FFFFFF"
         android:id="@+id/windSpeed"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:text="Update Field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dayNumberView"
+        android:layout_alignEnd="@+id/dayNumberView"
+        android:id="@+id/updateField"
+        android:layout_alignBottom="@+id/windSpeed" />
 
 </RelativeLayout>
