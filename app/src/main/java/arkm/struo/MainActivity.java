@@ -212,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //creating the Weather
     public static class OpenWeatherMap{
         @SerializedName("coord")
         public Coord coord;
@@ -227,9 +228,6 @@ public class MainActivity extends AppCompatActivity {
         String name;
         @SerializedName("wind")
         Wind wind;
-
-
-
     }
     public class Coord{
         @SerializedName("lon")
@@ -276,11 +274,9 @@ public class MainActivity extends AppCompatActivity {
         String baseUrl = "http://api.openweathermap.org/data/2.5/weather";
         String url = String.format("%s?q=%s,%s&appid=%s", baseUrl, city, countryCode,
                 getResources().getString(R.string.weather_api_key));
-//        String url = "http://api.openweathermap.org/data/2.5/weather?q=Waterloo,ca&appid=168b9d1fbc6ecad777c0ee9511dde039";
 
         RequestQueue queue = Volley.newRequestQueue(this);
-
-
+        
         StringRequest weatherCall = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override

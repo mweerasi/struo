@@ -45,7 +45,7 @@ public class CalendarFragment extends Fragment {
         dayNumView.setText(new SimpleDateFormat("d", Locale.CANADA).format(cal.getTime()));
         date.setText(new SimpleDateFormat("E", Locale.CANADA).format(cal.getTime()));
 
-        ((MainActivity)getActivity()).fetchWeatherAsync("Waterloo", "ca");
+        ((MainActivity)getActivity()).fetchWeatherAsync("Waterloo", "ca"); //default for now
 
         //for weather
 
@@ -63,15 +63,11 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-
-
-
         Typeface weatherFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/weathericons-regular-webfont.ttf");
         weatherIcon.setTypeface(weatherFont);
 
 //            humidity_field.setText("Humidity: "+weather_humidity);
 //            pressure_field.setText("Pressure: "+weather_pressure);
-//            weatherIcon.setText(Html.fromHtml(weather_iconText));
 
         return view;
     }
@@ -106,11 +102,12 @@ public class CalendarFragment extends Fragment {
 
     public void setWeatherField(MainActivity.OpenWeatherMap weatherObject){
         String windDeg;
+        //set
         cityField.setText(weatherObject.name + ", " + weatherObject.sys.country);
-
         detailsField.setText(weatherObject.weather[0].description);
         currentTemperatureField.setText(String.format("%.2f"+ (char) 0x00B0 +"C", weatherObject.main.temp - 273.15));
 
+        //setting the compass directions based on the degrees
         if (weatherObject.wind.deg > 337.5 && weatherObject.wind.deg <= 22.5){
             windDeg = String.format("N");
         } else if (weatherObject.wind.deg > 22.5 && weatherObject.wind.deg <= 67.5){
@@ -135,6 +132,7 @@ public class CalendarFragment extends Fragment {
     }
 
     public static String setWeatherIcon(int actualId, long sunrise, long sunset){
+        //setting the icons based on the Id provided by OWM
         int id = actualId / 100;
         String icon = "";
         if(actualId == 800){
