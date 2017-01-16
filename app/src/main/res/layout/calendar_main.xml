@@ -73,7 +73,7 @@
         android:text="year"
         android:textSize="24sp"
         android:textColor="#ffffff"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="55dp"
         android:layout_alignParentTop="true"
         android:layout_alignEnd="@+id/monthView" />
 
@@ -118,13 +118,15 @@
         android:id="@+id/windSpeed"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Button
+    <TextView
         android:text="Update Field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dayNumberView"
-        android:layout_alignEnd="@+id/dayNumberView"
         android:id="@+id/updateField"
-        android:layout_alignBottom="@+id/windSpeed" />
+        android:layout_below="@+id/cityField"
+        android:textColor="#FFFFFF"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:gravity="center_horizontal" />
 
 </RelativeLayout>

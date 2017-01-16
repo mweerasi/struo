@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,8 +25,7 @@ import java.util.Locale;
  */
 public class CalendarFragment extends Fragment {
 
-    private TextView cityField, updatedField, detailsField, currentTemperatureField, weatherIcon, windSpeed; //Weather textviews
-    private Button updateField;
+    private TextView cityField, updateField, detailsField, currentTemperatureField, weatherIcon, windSpeed; //Weather textviews
     public CalendarFragment() {
     }
 
@@ -47,18 +47,15 @@ public class CalendarFragment extends Fragment {
         dayNumView.setText(new SimpleDateFormat("d", Locale.CANADA).format(cal.getTime()));
         date.setText(new SimpleDateFormat("E", Locale.CANADA).format(cal.getTime()));
 
-        ((MainActivity)getActivity()).fetchWeatherAsync("Waterloo", "ca"); //default for now
+        ((MainActivity)getActivity()).fetchWeatherAsync("Waterloo", "CA"); //default for now
 
         //for weather
-
         cityField = (TextView) view.findViewById(R.id.cityField);
-        //updatedField = (TextView) view.findViewById(R.id.updatedField);
+        updateField = (TextView) view.findViewById(R.id.updateField);
         detailsField = (TextView) view.findViewById(R.id.detailsField);
         currentTemperatureField = (TextView) view.findViewById(R.id.currentTemperatureField);
         weatherIcon = (TextView) view.findViewById(R.id.weatherIcon);
         windSpeed = (TextView) view.findViewById(R.id.windSpeed);
-
-        updatedField = (Button) view.findViewById(R.id.updateField);
 
         cityField.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -108,11 +105,12 @@ public class CalendarFragment extends Fragment {
 
     public void setWeatherField(MainActivity.OpenWeatherMap weatherObject){
         String windDeg;
+        DateFormat df = DateFormat.getDateTimeInstance();
         //output the weather fields
         cityField.setText(weatherObject.name + ", " + weatherObject.sys.country);
         detailsField.setText(weatherObject.weather[0].description);
         currentTemperatureField.setText(String.format("%.2f"+ (char) 0x00B0 +"C", weatherObject.main.temp - 273.15));
-
+        updateField.setText("Last check \n" + df.format(new Date(weatherObject.dt*1000)));
         //setting the compass directions based on the degrees
         if (weatherObject.wind.deg > 337.5 && weatherObject.wind.deg <= 22.5){
             windDeg = String.format("N");
