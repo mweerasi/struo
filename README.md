@@ -12,7 +12,7 @@ Calendar
 
 <img src="https://cloud.githubusercontent.com/assets/21150618/22601593/9cc1a0d0-ea0d-11e6-80c4-824d183ff1bf.png" width="400">
 
-<img src="https://cloud.githubusercontent.com/assets/21150618/22601595/9e01adfa-ea0d-11e6-81b1-470a31b9f4ff.png" width="400">
+<img src="https://cloud.githubusercontent.com/assets/21150618/22601727/4b7f1710-ea0e-11e6-9c47-93d319c2d99f.png" width="400">
 
 To-Do:
 
