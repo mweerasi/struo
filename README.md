@@ -2,6 +2,11 @@
 An android app used for organization. Includes a calendar, mind map and note taking application.
 
 Features:
+- Assembled an organization app that currently output the date and weather using fragments
+-	Implemented Volley and OpenWeatherMaps REST API to receive weather data in JSON
+-	Constructed a JSON to Java Object parser to use the objects received 
+- Designed an easy to understand User Interface
+
 
 Calendar 
 - Display current date
