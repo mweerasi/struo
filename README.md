@@ -1,5 +1,5 @@
 # Struo
-An android app used for organization. Includes a calendar, mind map and note taking application.
+An android app to get the current date as well as the weather of a city, with more organizational improvements planned.
 
 Features:
 - Assembled an organization app that currently output the date and weather using fragments
